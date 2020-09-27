@@ -11,7 +11,7 @@ module DocTypeChecker
     def initialize(tag)
       raise ArgumentError unless ALLOW_TAG_NAMES.include?(tag.tag_name)
 
-      @types = tag.types.to_a.map { |type_comment| const_get(type_comment) }
+      @types = tag.types.to_a.flat_map.filter_map { |type_comment| const_get(type_comment) }
     end
 
     # @param [Object] object
@@ -29,8 +29,11 @@ module DocTypeChecker
 
     # @todo support definition Array<Integer>
     # @param [String] type_comment
-    # @return [Class, Module]
+    # @return [Class, NilClass]
     def const_get(type_comment)
+      return if type_comment == 'void'
+      return [TrueClass, FalseClass] if type_comment == 'Boolean'
+
       type_comment.match(/\A([\w:]+)(<.+>)?\z/) do
         Object.const_get(Regexp.last_match(1))
       end || (raise ArgumentError, "#{type_comment} isn't matched class")

@@ -42,7 +42,7 @@ module DocTypeChecker
         [tag.name.to_sym, TagType.new(tag)] if tag.tag_name == 'param'
       end.to_h
       unless @params.empty? || @params.keys == actual_params_definition(method_object)
-        raise ArgumentError, "params doesn't match actual arguments"
+        raise ArgumentError, "#{name}: params doesn't match actual arguments"
       end
 
       @params
