@@ -20,6 +20,12 @@ module DocTypeChecker
       @trace_point.strict = strict
     end
 
+    # @param [Logger, NilClass] logger
+    # @return [Logger, NilClass]
+    def logger=(logger)
+      @trace_point.logger = logger
+    end
+
     # @param [Array] arguments
     # @return [TrueClass, FalseClass]
     def yard_run_arguments=(arguments)

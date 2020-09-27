@@ -20,5 +20,6 @@ end
 DocTypeChecker.configure do |config|
   config.enabled = true
   config.strict = true
+  config.logger = nil
   config.yard_run_arguments = ['--hide-void-return', 'spec/support/*']
 end
